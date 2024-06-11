@@ -67,6 +67,9 @@ dependencies {
     // Coil
     implementation(libs.coil)
 
+    // Google permission lib
+    implementation(libs.permission.lib)
+
     // Hilt
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

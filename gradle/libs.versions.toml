@@ -13,6 +13,7 @@ hilt = "2.49"
 hiltNavigationCompose = "1.2.0"
 lifecycleRuntimeComposeAndroid = "2.8.1"
 coil = "2.6.0"
+accompanistVersion = "0.28.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +41,9 @@ androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", nam
 
 ## Coil
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+## Google Permissions lib
+permission-lib = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanistVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
