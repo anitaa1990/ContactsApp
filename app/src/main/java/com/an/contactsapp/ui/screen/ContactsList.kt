@@ -1,5 +1,7 @@
 package com.an.contactsapp.ui.screen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -67,6 +71,7 @@ fun ContactsList(
 
 @Composable
 fun ContactListItem(contact: ContactModel) {
+    val context = LocalContext.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -100,22 +105,36 @@ fun ContactListItem(contact: ContactModel) {
                 color = MaterialTheme.colorScheme.outline
             )
         }
-        Image(
-            imageVector = Icons.Filled.Call,
-            contentDescription ="",
-            modifier = Modifier.padding(10.dp),
-            colorFilter = ColorFilter.tint(
-                color = MaterialTheme.colorScheme.primary
+        IconButton(
+            onClick = {
+                val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + contact.phoneNumber))
+                context.startActivity(intent)
+            },
+        ) {
+            Image(
+                imageVector = Icons.Filled.Call,
+                contentDescription ="",
+                modifier = Modifier.padding(9.dp),
+                colorFilter = ColorFilter.tint(
+                    color = MaterialTheme.colorScheme.primary
+                )
             )
-        )
-        Image(
-            painter = painterResource(id = R.drawable.ic_message),
-            contentDescription ="",
-            modifier = Modifier.padding(10.dp),
-            colorFilter = ColorFilter.tint(
-                color = MaterialTheme.colorScheme.primary
+        }
+        IconButton(
+            onClick = {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("sms:" + contact.phoneNumber))
+                context.startActivity(intent)
+            }
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_message),
+                contentDescription ="",
+                modifier = Modifier.padding(9.dp),
+                colorFilter = ColorFilter.tint(
+                    color = MaterialTheme.colorScheme.primary
+                )
             )
-        )
+        }
     }
 }
 
