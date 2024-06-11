@@ -31,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.an.contactsapp.R
+import com.an.contactsapp.ui.component.PermissionDialog
 import com.an.contactsapp.ui.state.ContactUiState
 import com.an.contactsapp.ui.theme.ContactsAppTheme
 import com.an.contactsapp.ui.viewmodel.ContactsViewModel
@@ -70,7 +71,7 @@ fun MainApp() {
 
             if (showRationale.value) {
                 val context = LocalContext.current
-                PermissionDialogScreen(
+                PermissionDialog(
                     onPermissionRequest = {
                         val intent = Intent(
                             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

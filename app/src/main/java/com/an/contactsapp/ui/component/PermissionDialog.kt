@@ -1,4 +1,4 @@
-package com.an.contactsapp.ui.screen
+package com.an.contactsapp.ui.component
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import com.an.contactsapp.R
 
 @Composable
-fun PermissionDialogScreen(
+fun PermissionDialog(
     onDismissRequest: () -> Unit = {},
     onPermissionRequest: () -> Unit = {}
 ) {
