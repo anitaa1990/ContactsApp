@@ -23,7 +23,7 @@ class ContactsRepository @Inject constructor(
             null,
             null,
             null,
-            null
+            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY
         )?.use { contactsCursor ->
             val idIndex = contactsCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID)
             val nameIndex = contactsCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)
