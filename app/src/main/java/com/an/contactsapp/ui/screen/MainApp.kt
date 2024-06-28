@@ -43,12 +43,30 @@ import com.google.accompanist.permissions.shouldShowRationale
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MainApp() {
+    // The theme of our app
     ContactsAppTheme {
+        // Defines a default Scaffold with a default TopAppBar called `MainTopAppBar()`
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = { MainTopAppBar() }
         ) { innerPadding ->
+            /**
+             * Reacting to state changes is the core behavior of Compose. You will notice a couple new
+             * keywords that are compose related - remember & mutableStateOf. remember{} is a helper
+             * composable that calculates the value passed to it only during the first composition. It then
+             * returns the same value for every subsequent composition. Next, you can think of
+             * mutableStateOf as an observable value where updates to this variable will redraw all
+             * the composable functions that access it. We don't need to explicitly subscribe at all. Any
+             * composable that reads its value will be recomposed any time the value changes. This ensures
+             * that only the composables that depend on this will be redraw while the rest remain unchanged.
+             * This ensures efficiency and is a performance optimization.
+             */
+            // If true, then the permission has been granted so
+            // the main app content will be displayed
             val showMainContent = remember { mutableStateOf(false) }
+
+            // If true, then the default permission has been denied so we
+            // we need to display a rationale dialog
             val showRationale = remember { mutableStateOf(false) }
 
             val permissionState = rememberPermissionState(Manifest.permission.READ_CONTACTS)
@@ -57,12 +75,17 @@ fun MainApp() {
             ) { isGranted -> showMainContent.value = isGranted }
 
             when {
+                // request to read contacts permission was granted so we no longer need to
+                // display the rationale dialog
                 permissionState.status.isGranted -> {
                     showMainContent.value = true
                     showRationale.value = false
                 }
+                // request to read contacts permission was denied and permission is not granted
+                // so we need to display the rationale dialog
                 !permissionState.status.isGranted && permissionState.status.shouldShowRationale -> showRationale.value = true
                 else -> {
+                    // request read contacts permission for the first time
                     LaunchedEffect(permissionState) {
                         requestPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
                     }
@@ -71,7 +94,10 @@ fun MainApp() {
 
             if (showRationale.value) {
                 val context = LocalContext.current
+                // display a rationale dialog by calling the `PermissionDialog` composable
                 PermissionDialog(
+                    // open the settings page of the app to enable read contact permission
+                    // when the ok button is clicked in the rationale dialog
                     onPermissionRequest = {
                         val intent = Intent(
                             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
@@ -80,11 +106,14 @@ fun MainApp() {
                         context.startActivity(intent)
                         showRationale.value = false
                     },
+                    // rationale dialog dismiss button is clicked
                     onDismissRequest = { showRationale.value = false }
                 )
             }
 
             if(showMainContent.value) {
+                // Calls the MainAppContent() composable since the permission
+                // has been granted to access contacts.
                 PermissionGrantedScreen(Modifier.padding(innerPadding))
             }
         }

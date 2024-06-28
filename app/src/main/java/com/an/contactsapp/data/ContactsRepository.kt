@@ -12,10 +12,13 @@ import javax.inject.Inject
 class ContactsRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
+    // defined a couroutine scope to get list of contacts from the background
     suspend fun getContacts(): List<ContactModel> = coroutineScope {
         async(Dispatchers.IO) { getContactList() }.await()
     }
 
+    // get list of contact details such as id, name, phone number & photo URI
+    // from the `Phone.CONTENT_URI`
     private fun getContactList(): List<ContactModel> {
         val contactsList = mutableListOf<ContactModel>()
         context.contentResolver.query(
@@ -39,8 +42,8 @@ class ContactsRepository @Inject constructor(
                 val photoThumbnailUri = contactsCursor.getString(photoThumbNailIndex)
                 contactsList.add(
                     ContactModel(
-                    id = id, displayName = name, phoneNumber = number, photoThumbnailUri = photoThumbnailUri, photoUri = photoUri
-                )
+                        id = id, displayName = name, phoneNumber = number, photoThumbnailUri = photoThumbnailUri, photoUri = photoUri
+                    )
                 )
             }
         }
