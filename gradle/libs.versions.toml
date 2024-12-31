@@ -1,17 +1,17 @@
 [versions]
-agp = "8.4.1"
-kotlin = "1.9.0"
-coreKtx = "1.13.1"
+agp = "8.7.3"
+kotlin = "2.0.21"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.8.1"
-activityCompose = "1.9.0"
-composeBom = "2024.05.00"
-ksp = "1.9.0-1.0.13"
-hilt = "2.49"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.9.3"
+composeBom = "2024.12.01"
+ksp = "2.0.21-1.0.28"
+hilt = "2.52"
 hiltNavigationCompose = "1.2.0"
-lifecycleRuntimeComposeAndroid = "2.8.1"
+lifecycleRuntimeComposeAndroid = "2.8.7"
 coil = "2.6.0"
 accompanistVersion = "0.28.0"
 
@@ -50,4 +50,5 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
