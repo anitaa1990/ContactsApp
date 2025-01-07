@@ -66,7 +66,7 @@ fun ContactsList(
             ) { index ->
                 // Our Contact list item contains just a Text composable
                 // that displays the contact name and phone number.
-                // There are also two ucon buttons to call/send sms
+                // There are also two icon buttons to call/send sms
                 // to that phone number.
                 ContactListItem(contact = entry.value[index])
             }
