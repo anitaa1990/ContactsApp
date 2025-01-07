@@ -6,4 +6,7 @@
     <string name="settings">Settings</string>
     <string name="dismiss">Dismiss</string>
     <string name="content_description_add">Add</string>
+    <string name="content_description_profile">Profile icon</string>
+    <string name="content_description_call">Call</string>
+    <string name="content_description_sms">Sms</string>
 </resources>
