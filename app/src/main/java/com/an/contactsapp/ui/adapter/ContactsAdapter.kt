@@ -11,18 +11,41 @@ import com.an.contactsapp.model.ContactModel
 import com.an.contactsapp.ui.state.GroupedContacts
 
 class ContactsAdapter(
-    private val contactsMap: GroupedContacts
+    private val groupedContacts: GroupedContacts
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val sections = contactsMap.keys.toList()
 
     companion object {
         const val TYPE_HEADER = 0
         const val TYPE_ITEM = 1
     }
 
+    // Prepare a flat list of sections where each section has a header and contacts
+    private val sections: List<Pair<String, List<ContactModel>>> = groupedContacts.toList()
+
+    override fun getItemCount(): Int {
+        // Total item count: 1 for header + size of contact list for each section
+        return sections.sumOf { it.second.size + 1 }
+    }
+
     override fun getItemViewType(position: Int): Int {
-        // Check if the position corresponds to a header or an item
-        return if (position % 2 == 0) TYPE_HEADER else TYPE_ITEM
+        var currentPosition = 0
+
+        // Iterate through sections and determine if the position is for a header or contact item
+        for ((header, contacts) in sections) {
+            // The first item in the section is a header
+            if (position == currentPosition) {
+                return TYPE_HEADER
+            }
+            currentPosition++
+
+            // The remaining items in the section are contact items
+            if (position in currentPosition until currentPosition + contacts.size) {
+                return TYPE_ITEM
+            }
+            currentPosition += contacts.size
+        }
+
+        throw IllegalStateException("Unknown item type")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -47,23 +70,25 @@ class ContactsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == TYPE_HEADER) {
-            val headerHolder = holder as HeaderViewHolder
-            val section = sections[position / 2]
-            headerHolder.bind(section)
-        } else {
-            val contactHolder = holder as ContactItemViewHolder
-            val contact = contactsMap[sections[position / 2]]?.get(position % 2)
-            contact?.let { contactHolder.bind(it) }
-        }
-    }
+        var currentPosition = 0
 
-    override fun getItemCount(): Int {
-        var totalItemCount = 0
-        sections.forEach {
-            totalItemCount += contactsMap[it]?.size?.times(2) ?: 0
+        for ((header, contacts) in sections) {
+
+            if (position == currentPosition) {
+                val headerHolder = holder as HeaderViewHolder
+                headerHolder.bind(header)
+                return
+            }
+            currentPosition++
+
+            if (position in currentPosition until currentPosition + contacts.size) {
+                val contact = contacts[position - currentPosition]
+                val contactHolder = holder as ContactItemViewHolder
+                contactHolder.bind(contact)
+                return
+            }
+            currentPosition += contacts.size
         }
-        return totalItemCount
     }
 
 

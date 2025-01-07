@@ -21,6 +21,8 @@ class ContactsRepository @Inject constructor(
     // from the `Phone.CONTENT_URI`
     private fun getContactList(): List<ContactModel> {
         val contactsList = mutableListOf<ContactModel>()
+        val contactIdsSet = mutableSetOf<String>() // Set to track unique contact IDs
+
         context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
             null,
@@ -40,11 +42,20 @@ class ContactsRepository @Inject constructor(
                 val number = contactsCursor.getString(numberIndex)
                 val photoUri = contactsCursor.getString(photoUriIndex)
                 val photoThumbnailUri = contactsCursor.getString(photoThumbNailIndex)
-                contactsList.add(
-                    ContactModel(
-                        id = id, displayName = name, phoneNumber = number, photoThumbnailUri = photoThumbnailUri, photoUri = photoUri
+
+                // Check if the contact ID has already been added to the list
+                if (!contactIdsSet.contains(id)) {
+                    contactIdsSet.add(id) // Add the contact ID to the set
+                    contactsList.add(
+                        ContactModel(
+                            id = id,
+                            displayName = name,
+                            phoneNumber = number,
+                            photoThumbnailUri = photoThumbnailUri,
+                            photoUri = photoUri
+                        )
                     )
-                )
+                }
             }
         }
         return contactsList

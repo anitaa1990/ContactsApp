@@ -29,7 +29,9 @@ class MainActivity : AppCompatActivity() {
                if (contactsUiState.loading) {
                    // TODO
                } else {
-                   adapter = ContactsAdapter(contactsUiState.contacts)
+                   adapter = ContactsAdapter(
+                       contactsUiState.contacts
+                   )
                    binding.contentMain.recyclerView.adapter = adapter
                }
             }

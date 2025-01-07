@@ -12,7 +12,7 @@
         android:id="@+id/tv_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimarySurface"
         android:textSize="@dimen/font_large"
         app:fontWeight="700"
         android:paddingStart="@dimen/padding_small"
